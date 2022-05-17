@@ -29,6 +29,7 @@ exports.deleteOne = async (req, res) => {
 
     sendResponse(req, res, 200, "deleted successfully");
   } catch (err) {
+ 
     if (transaction) {
       await transaction.rollback();
     }
@@ -82,7 +83,7 @@ exports.getAll = async (req, res) => {
     });
     sendResponse(req, res, 200, stockItems);
   } catch (err) {
-    console.log(err);
+   
     sendResponse(req, res, 400, err.message, "fail");
   }
 };

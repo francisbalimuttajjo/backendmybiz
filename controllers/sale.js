@@ -1,6 +1,9 @@
 const { sendResponse } = require("../utils/fns");
 const db = require("../models");
-const { sequelize } = require("../models");
+const handler = require("./handler");
+
+
+exports.deleteOne = handler.deleteOne(db.Sale);
 
 //reversing / cancelling single sale
 exports.reverseSale = async (req, res) => {
@@ -19,16 +22,6 @@ exports.reverseSale = async (req, res) => {
       where: { id: req.params.id },
     });
     sendResponse(req, res, 200, "operation successfull");
-  } catch (err) {
-    sendResponse(req, res, 400, err.message, "fail");
-  }
-};
-
-exports.deleteOne = async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    await db.Sale.destroy({ where: { id } });
-    sendResponse(req, res, 200, "operation successfull", "fail");
   } catch (err) {
     sendResponse(req, res, 400, err.message, "fail");
   }

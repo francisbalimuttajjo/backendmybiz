@@ -2,6 +2,7 @@ const { sendResponse } = require("../utils/fns");
 const db = require("../models");
 const { sequelize } = require("../models");
 
+//adding new transaction
 exports.addOne = async (req, res) => {
   let t;
 
@@ -23,6 +24,7 @@ exports.addOne = async (req, res) => {
       { t }
     );
 
+    //adding transaction id to sales
     const new_items_with_transaction_id = stockItems.map(function (el) {
       return { ...el, transaction_id: transaction.id, client };
     });
@@ -51,6 +53,7 @@ exports.addOne = async (req, res) => {
   }
 };
 
+//getting
 exports.getAll = async (req, res) => {
   try {
     const transactions = await db.Transaction.findAll({
@@ -64,7 +67,48 @@ exports.getAll = async (req, res) => {
     });
     sendResponse(req, res, 200, transactions);
   } catch (err) {
-    console.log(err);
     sendResponse(req, res, 400, err.message, "fail");
+  }
+};
+
+//deleting transaction
+exports.deleteOne = async (req, res) => {
+  let transaction;
+
+  transaction = await sequelize.transaction();
+  const id = req.params.id;
+  try {
+    let transaction_item = await db.Transaction.findOne({ where: { id } });
+
+    if (!transaction_item) {
+      return sendResponse(
+        req,
+        res,
+        404,
+        "no transaction with provided id",
+        "fail"
+      );
+    }
+
+    await db.Sale.destroy({ where: { transaction_id: id } }, { transaction });
+
+    await db.Transaction.destroy({ where: { id } }, { transaction });
+
+    await transaction.commit();
+
+    sendResponse(req, res, 200, "deleted successfully");
+    
+  } catch (err) {
+    if (transaction) {
+      await transaction.rollback();
+    }
+    sendResponse(
+      req,
+      res,
+      500,
+      err.message,
+
+      "fail"
+    );
   }
 };

@@ -19,14 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    // toJSON() {
-    //   return {
-    //     ...this.get(),
-    //     user: undefined,
-    //     updatedAt: undefined,
-    //     item_id: undefined,
-    //   };
-    // }
+ 
   }
   Sale.init(
     {
