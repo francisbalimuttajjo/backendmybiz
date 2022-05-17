@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsTo(models.StockItem, {
         foreignKey: "item_id",
-        as:'salesProfile'
+        as:'item'
       });
       this.belongsTo(models.User, {
         foreignKey: "user",
