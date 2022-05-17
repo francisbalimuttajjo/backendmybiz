@@ -2,6 +2,50 @@ const { sendResponse } = require("../utils/fns");
 const db = require("../models");
 const { sequelize } = require("../models");
 
+exports.deleteOne = async (req, res) => {
+  let transaction;
+
+  transaction = await sequelize.transaction();
+  const id = parseInt(req.params.id);
+
+  try {
+    let productCategory = await db.ProductCategory.findOne({ where: { id } });
+
+    if (!productCategory) {
+      return sendResponse(
+        req,
+        res,
+        404,
+        "no product category with provided id",
+        "fail"
+      );
+    }
+
+    await db.StockItem.destroy(
+      { where: { productCategory_id: id } },
+      { transaction }
+    );
+
+    await db.ProductCategory.destroy({ where: { id } }, { transaction });
+
+    await transaction.commit();
+
+    sendResponse(req, res, 200, "deleted successfully");
+  } catch (err) {
+    if (transaction) {
+      await transaction.rollback();
+    }
+    sendResponse(
+      req,
+      res,
+      500,
+      err.message,
+
+      "fail"
+    );
+  }
+};
+
 exports.getAll = async (req, res) => {
   const { user } = req.body;
 
@@ -11,7 +55,7 @@ exports.getAll = async (req, res) => {
       include: [{ model: db.StockItem, as: "stockItems" }],
     });
 
-    return sendResponse(req, res, 201, availableCategories);
+    return sendResponse(req, res, 200, availableCategories);
   } catch (err) {
     sendResponse(req, res, 400, err.message, "fail");
   }

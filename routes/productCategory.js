@@ -4,12 +4,12 @@ const authController = require("../controllers/auth");
 const router = express.Router();
 
 router.route("/productCategories").post(productCategoryController.addOne);
-router.route("/productCategories/getAll").post(
-  //authController.isAuthenticated,
-  productCategoryController.getAll
-);
+router
+  .route("/productCategories/getAll")
+  .post(authController.isAuthenticated, productCategoryController.getAll);
 router
   .route("/productCategories/:id")
-  .patch(authController.isAuthenticated, productCategoryController.updateOne);
+  .patch(authController.isAuthenticated, productCategoryController.updateOne)
+  .delete(authController.isAuthenticated, productCategoryController.deleteOne);
 
 module.exports = router;

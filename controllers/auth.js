@@ -20,8 +20,7 @@ exports.auth = async (req, res) => {
       return sendResponse(req, res, 200, user);
     }
 
-      sendResponse(req, res, 400, "no user with the id", "fail");
-      
+    sendResponse(req, res, 400, "no user with the id", "fail");
   } catch (err) {
     sendResponse(req, res, 400, err.message, "fail");
   }
@@ -48,7 +47,7 @@ exports.isAuthenticated = async (req, res, next) => {
       sendResponse(req, res, 400, "no user with the id", "fail");
       return;
     }
-
+    // req.user = user.email;
     next();
   } catch (err) {
     sendResponse(req, res, 400, err.message, "fail");
