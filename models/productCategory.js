@@ -3,7 +3,6 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ProductCategory extends Model {
     static associate(models) {
-      
       // define association here
       this.belongsTo(models.User, {
         foreignKey: "user",
@@ -13,8 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.StockItem, {
         foreignKey: "productCategory_id",
         as: "stockItems",
-        
       });
+    }
+    toJSON() {
+      return {
+        ...this.get(),
+        updatedAt: undefined,
+        createdAt: undefined,
+      };
     }
   }
   ProductCategory.init(

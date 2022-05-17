@@ -1,16 +1,20 @@
 const express = require("express");
-const userRouter = require("./routes/user")
-const productCategoryRouter = require("./routes/productCategory")
+const userRouter = require("./routes/user");
+const salesRouter = require("./routes/sale");
+const stockItemRouter = require("./routes/stockItem");
+const transactionRouter = require("./routes/transaction");
+const productCategoryRouter = require("./routes/productCategory");
 
 const { sendResponse } = require("./utils/fns");
 
 const app = express();
 app.use(express.json());
 
-// app.use("/api/v1", itemRouter);
-app.use("/api/v1", userRouter)
-app.use("/api/v1", productCategoryRouter)
-
+app.use("/api/v1", stockItemRouter);
+app.use("/api/v1", userRouter);
+app.use("/api/v1", salesRouter);
+app.use("/api/v1", transactionRouter);
+app.use("/api/v1", productCategoryRouter);
 
 //not found route
 
@@ -23,6 +27,5 @@ app.use("*", (req, res) =>
     "fail"
   )
 );
-
 
 module.exports = app;

@@ -1,24 +1,30 @@
 "use strict";
-const { v4: uuidv4 } = require("uuid");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "ProductCategories",
+      "CashItems",
       [
         {
-          title: "stationery",
-          value: "stationery",
+          Category: "labour",
+          Amount: 8900,
+          entryDate: new Date(),
+          itemTime: new Date(),
+          Remark: "goods",
           user: "bafudde@gmail.com",
+          type: "sales",
+          paymentMode: "online",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        {
-          title: "bafra",
-          value: "stationery",
-          user: "bafra@gmail.com",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+      
+        // {
+        //   title: "bafra",
+        //   value: "stationery",
+        //   user: "bafra@gmail.com",
+        //   createdAt: new Date(),
+        //   updatedAt: new Date(),
+        // },
       ],
       {}
     );

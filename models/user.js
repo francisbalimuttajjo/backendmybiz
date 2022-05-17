@@ -11,6 +11,29 @@ module.exports = (sequelize, DataTypes) => {
         as: "productCategories",
         sourceKey: "email",
       });
+      this.hasMany(models.Transaction, {
+        foreignKey: "user",
+        as: "transactions",
+        sourceKey: "email",
+      });
+      this.hasMany(models.Sale, {
+        foreignKey: "user",
+        as: "sales",
+        sourceKey: "email",
+      });
+      this.hasMany(models.CashItem, {
+        foreignKey: "user",
+        as: "cashItems",
+        sourceKey: "email",
+      });
+    }
+    toJSON() {
+      return {
+        ...this.get(),
+        createdAt: undefined,
+        updatedAt: undefined,
+        password: undefined,
+      };
     }
   }
   User.init(
