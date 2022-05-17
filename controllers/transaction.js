@@ -38,7 +38,7 @@ exports.addOne = async (req, res) => {
         { t }
       );
     });
-    //comiiting transaction is all is well
+    //comiiting transaction if all is well
     await t.commit();
 
     sendResponse(req, res, 201, transaction);
@@ -54,6 +54,7 @@ exports.addOne = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const transactions = await db.Transaction.findAll({
+      where: { user: req.body.user },
       include: [
         {
           model: db.Sale,

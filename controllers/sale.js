@@ -2,6 +2,38 @@ const { sendResponse } = require("../utils/fns");
 const db = require("../models");
 const { sequelize } = require("../models");
 
+//reversing / cancelling single sale
+exports.reverseSale = async (req, res) => {
+  try {
+    //getting the sale
+    const sale = await db.Sale.findOne({
+      where: { id: req.params.id },
+    });
+    //updating stock  before deleting
+    await db.StockItem.update(
+      { stock: db.sequelize.literal(`stock + ${sale.quantity}`) },
+      { where: { id: sale.item_id } }
+    );
+    //deleting sale from table
+    await db.Sale.destroy({
+      where: { id: req.params.id },
+    });
+    sendResponse(req, res, 200, "operation successfull");
+  } catch (err) {
+    sendResponse(req, res, 400, err.message, "fail");
+  }
+};
+
+exports.deleteOne = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    await db.Sale.destroy({ where: { id } });
+    sendResponse(req, res, 200, "operation successfull", "fail");
+  } catch (err) {
+    sendResponse(req, res, 400, err.message, "fail");
+  }
+};
+
 exports.addOne = async (req, res) => {
   const { user, item_id, transaction_id, client, quantity, price } = req.body;
   try {
@@ -22,6 +54,7 @@ exports.addOne = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const sales = await db.Sale.findAll({
+      where: { user: req.body.user },
       include: [
         {
           model: db.StockItem,
@@ -29,9 +62,9 @@ exports.getAll = async (req, res) => {
         },
       ],
     });
+
     sendResponse(req, res, 200, sales);
   } catch (err) {
-    console.log(err);
     sendResponse(req, res, 400, err.message, "fail");
   }
 };
