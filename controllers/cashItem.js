@@ -35,6 +35,7 @@ exports.addOneItem = async (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
+    
   try {
     const cashItems = await db.CashItem.findAll({
       where: { user: req.body.user },
