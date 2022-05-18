@@ -118,12 +118,13 @@ exports.updatePassword = async (req, res) => {
 //adding one user
 exports.registerUser = async (req, res) => {
   const { firstName, email, lastName, password, passwordConfirm } = req.body;
+  console.log({ email });
   try {
     //checking if passwords match
     if (password !== passwordConfirm) {
       return sendResponse(req, res, 400, "Passwords must be the same", "fail");
     }
-    const user = await db.User.findOne({ where: { email } });
+    const user = await db.User.findOne({ where: { email: email.trim() } });
 
     if (user) {
       return sendResponse(req, res, 400, "Account already exists", "fail");
@@ -132,10 +133,11 @@ exports.registerUser = async (req, res) => {
     const newUser = await db.User.create({
       firstName,
       lastName,
-      email,
+      email: email.trim(),
       password,
       photo: "",
     });
+  
     sendResponse(req, res, 201, newUser);
   } catch (err) {
     sendResponse(req, res, 400, err.message, "fail");
