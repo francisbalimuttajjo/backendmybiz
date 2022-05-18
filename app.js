@@ -13,6 +13,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send({ msh: "logged in" });
+});
+
 app.use("/api/v1", stockItemRouter);
 app.use("/api/v1", userRouter);
 app.use("/api/v1", salesRouter);
