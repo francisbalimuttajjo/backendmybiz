@@ -97,11 +97,7 @@ module.exports = (sequelize, DataTypes) => {
       .catch((err) => {
         throw new Error();
       });
-    // User.beforeDestroy(async (user) => {
-    //   console.log({ use: user.email });
-    //   console.log("deleting");
-    //   return await db.ProductCategory.destroy({ where: { user: user.email } });
-    // });
+ 
   });
   return User;
 };

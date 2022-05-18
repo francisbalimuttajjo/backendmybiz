@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const userRouter = require("./routes/user");
 const salesRouter = require("./routes/sale");
 const cashItemRouter = require("./routes/cashItem");
@@ -9,6 +10,7 @@ const productCategoryRouter = require("./routes/productCategory");
 const { sendResponse } = require("./utils/fns");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1", stockItemRouter);
