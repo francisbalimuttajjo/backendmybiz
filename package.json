@@ -1,5 +1,5 @@
 {
-  "name": "mybiz_backend",
+  "name": "mybiz",
   "version": "1.0.0",
   "description": "the business management app",
   "main": "server.js",
