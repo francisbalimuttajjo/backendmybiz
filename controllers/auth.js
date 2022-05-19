@@ -16,6 +16,7 @@ exports.auth = async (req, res) => {
         active: true,
       },
     });
+
     if (user) {
       return sendResponse(req, res, 200, user);
     }

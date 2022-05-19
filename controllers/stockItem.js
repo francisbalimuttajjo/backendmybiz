@@ -22,9 +22,10 @@ exports.deleteStockItem = async (req, res) => {
         "fail"
       );
     }
+    await db.Sale.destroy({ where: { item_id: id } },{ transaction })
 
     await db.StockItem.destroy(
-      { where: { id }, include: [{ model: db.Sale }] },
+      { where: { id }},
       { transaction }
     );
 
