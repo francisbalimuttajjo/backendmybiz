@@ -10,6 +10,8 @@ router
 router
   .route("/productCategories/:id")
   .patch(authController.isAuthenticated, productCategoryController.updateOne)
-  .delete(authController.isAuthenticated, productCategoryController.deleteOne);
+  .delete(
+    //authController.isAuthenticated,
+    productCategoryController.deleteOne);
 
 module.exports = router;

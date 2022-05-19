@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsTo(models.StockItem, {
         foreignKey: "item_id",
-        as:'item'
+        as: "item",
       });
       this.belongsTo(models.User, {
         foreignKey: "user",
@@ -18,8 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: "email",
       });
     }
-
- 
   }
   Sale.init(
     {
@@ -43,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: { args: true, msg: "item must be included" },
         },
+        // references: {
+        //   model: Model.StockItem, // Can be both a string representing the table name or a Sequelize model
+        //   key: "id",
+        // },
       },
       transaction_id: {
         type: DataTypes.INTEGER,

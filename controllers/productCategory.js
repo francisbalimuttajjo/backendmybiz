@@ -9,7 +9,9 @@ exports.deleteOne = async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
-    let productCategory = await db.ProductCategory.findOne({ where: { id } });
+    let productCategory = await db.ProductCategory.findOne({
+      where: { id },
+    });
 
     if (!productCategory) {
       return sendResponse(
@@ -21,8 +23,26 @@ exports.deleteOne = async (req, res) => {
       );
     }
 
-    await db.StockItem.destroy(
-      { where: { productCategory_id: id } },
+    //getting all items that belong to that category && their salesList as salesProfile
+    const items_list = await db.StockItem.findAll(
+      {
+        where: { productCategory_id: id },
+        include: [{ model: db.Sale, as: "salesProfile" }],
+      },
+      { transaction }
+    );
+
+    const sales_list = items_list.map((el) => el.salesProfile);
+    const sales_ids = sales_list.flat().map((el) => el.id);
+
+    //removing those sales from table
+    await db.Sale.destroy({ where: { id: sales_ids } }, { transaction });
+
+    //deleting items fom the table
+    db.StockItem.destroy(
+      {
+        where: { productCategory_id: id },
+      },
       { transaction }
     );
 
@@ -32,6 +52,7 @@ exports.deleteOne = async (req, res) => {
 
     sendResponse(req, res, 200, "deleted successfully");
   } catch (err) {
+
     if (transaction) {
       await transaction.rollback();
     }

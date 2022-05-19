@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.beforeCreate((user, options) => {
+   
     return bcrypt
       .hash(user.password, 10)
       .then((hash) => {
@@ -97,7 +98,6 @@ module.exports = (sequelize, DataTypes) => {
       .catch((err) => {
         throw new Error();
       });
- 
   });
   return User;
 };

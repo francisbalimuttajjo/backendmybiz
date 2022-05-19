@@ -9,7 +9,9 @@ exports.deleteOne = async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
-    let stockItem = await db.StockItem.findOne({ where: { id } });
+    let stockItem = await db.StockItem.findOne({
+      where: { id },
+    });
 
     if (!stockItem) {
       return sendResponse(
@@ -21,15 +23,17 @@ exports.deleteOne = async (req, res) => {
       );
     }
 
-    await db.Sale.destroy({ where: { item_id: id } }, { transaction });
+    // await db.Sale.destroy({ where: { item_id: id } }, { transaction });
 
-    await db.StockItem.destroy({ where: { id } }, { transaction });
+    await db.StockItem.destroy(
+      { where: { id }, include: [{ model: db.Sale }] },
+      { transaction }
+    );
 
     await transaction.commit();
 
     sendResponse(req, res, 200, "deleted successfully");
   } catch (err) {
- 
     if (transaction) {
       await transaction.rollback();
     }
@@ -83,7 +87,6 @@ exports.getAll = async (req, res) => {
     });
     sendResponse(req, res, 200, stockItems);
   } catch (err) {
-   
     sendResponse(req, res, 400, err.message, "fail");
   }
 };
