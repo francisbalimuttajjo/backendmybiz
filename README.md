@@ -1,6 +1,6 @@
 # mybiz
 <h3>About the Api</h3>
-<p>This is a business  application for management of sales,stock,and cash flow. The user starts by creating product categories,then products which belong to those categories.</p>
+<p>This is a business  application api for management of sales,stock,debtors  cash flow. The user starts by creating product categories,then products which belong to those categories.</p>
 <h3>Technologies Used</h3>
 <ul><li>Node Js</li>
   <li>Express  Js</li>
@@ -8,7 +8,12 @@
   <li>Postgress Db</li>
 </ul>
 <h3>Data Flow and modeling</h3>
-<h4>User</h4>
+<img src='https://user-images.githubusercontent.com/63359032/169406148-2b00f039-e3c6-44c7-8665-0050c4186153.JPG'/>
+<h5>Summary</h5>
+<p>User has many Product Categories(One to many) which in turn also have many Stock Items(One To many)</p>
+<p>Sale belongs to both Transactions and Stock Items</p>
+<p>Transactions and Cash items are children of User</p>
+<p>When a StockItem is deleted, all sales assosciated to it are also deleted from the database,like wise if a product category is deleted,the same goes for all Stock items associated with that category and in turn all sales belonging to those items are removed from the database</p>
 <h3>Routes</h3>
 <table>
   <tr>
@@ -139,5 +144,8 @@
     </tr>
   </tbody>
 </table>
+
+<h3>Getting Started</h3>
+<p>Clone the repo to your machine and run yarn install to add all dependencies,then run yarn start to start the development server</P>
 
 
