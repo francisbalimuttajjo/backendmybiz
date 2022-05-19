@@ -2,7 +2,7 @@ const { sendResponse } = require("../utils/fns");
 const db = require("../models");
 const { sequelize } = require("../models");
 
-exports.deleteOne = async (req, res) => {
+exports.deleteStockItem = async (req, res) => {
   let transaction;
 
   transaction = await sequelize.transaction();
@@ -22,8 +22,6 @@ exports.deleteOne = async (req, res) => {
         "fail"
       );
     }
-
-    // await db.Sale.destroy({ where: { item_id: id } }, { transaction });
 
     await db.StockItem.destroy(
       { where: { id }, include: [{ model: db.Sale }] },
@@ -48,7 +46,7 @@ exports.deleteOne = async (req, res) => {
   }
 };
 
-exports.addOne = async (req, res) => {
+exports.addStockItem = async (req, res) => {
   try {
     const stockItem = await db.StockItem.create(req.body);
     sendResponse(req, res, 200, stockItem);
@@ -57,7 +55,7 @@ exports.addOne = async (req, res) => {
   }
 };
 
-exports.updateOne = async (req, res) => {
+exports.updateStockItem = async (req, res) => {
   const id = req.params.id;
 
   try {
@@ -65,17 +63,11 @@ exports.updateOne = async (req, res) => {
 
     sendResponse(req, res, 200, "update successfull");
   } catch (err) {
-    sendResponse(
-      req,
-      res,
-      500,
-      `error occured while updating doc with id ${id}`,
-      "fail"
-    );
+    sendResponse(req, res, 500, err.message, "fail");
   }
 };
 
-exports.getAll = async (req, res) => {
+exports.getStockItems = async (req, res) => {
   try {
     const stockItems = await db.StockItem.findAll({
       include: [

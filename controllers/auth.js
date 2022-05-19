@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const { sendResponse } = require("../utils/fns");
 
-//authentication on app start up
+//authentication on app start up to keep users logged in
 exports.auth = async (req, res) => {
   try {
     const { token } = req.params;
@@ -47,7 +47,7 @@ exports.isAuthenticated = async (req, res, next) => {
       sendResponse(req, res, 400, "no user with the id", "fail");
       return;
     }
-   
+
     next();
   } catch (err) {
     sendResponse(req, res, 400, err.message, "fail");

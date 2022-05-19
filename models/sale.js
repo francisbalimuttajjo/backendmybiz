@@ -41,10 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: { args: true, msg: "item must be included" },
         },
-        // references: {
-        //   model: Model.StockItem, // Can be both a string representing the table name or a Sequelize model
-        //   key: "id",
-        // },
+       
       },
       transaction_id: {
         type: DataTypes.INTEGER,
@@ -64,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { args: true, msg: "qty must be included" },
+          notEmpty: { args: true, msg: "quantity must be included" },
         },
       },
       price: {

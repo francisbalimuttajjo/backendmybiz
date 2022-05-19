@@ -2,7 +2,7 @@ const { sendResponse } = require("../utils/fns");
 const db = require("../models");
 const { sequelize } = require("../models");
 
-exports.deleteOne = async (req, res) => {
+exports.deleteProductCategory = async (req, res) => {
   let transaction;
 
   transaction = await sequelize.transaction();
@@ -52,7 +52,6 @@ exports.deleteOne = async (req, res) => {
 
     sendResponse(req, res, 200, "deleted successfully");
   } catch (err) {
-
     if (transaction) {
       await transaction.rollback();
     }
@@ -67,7 +66,7 @@ exports.deleteOne = async (req, res) => {
   }
 };
 
-exports.getAll = async (req, res) => {
+exports.getProductCategories = async (req, res) => {
   const { user } = req.body;
 
   try {
@@ -82,7 +81,7 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.updateOne = async (req, res) => {
+exports.updateProductCategory = async (req, res) => {
   const id = req.params.id;
 
   const { user, title } = req.body;
@@ -105,17 +104,11 @@ exports.updateOne = async (req, res) => {
 
     sendResponse(req, res, 200, "update successfull");
   } catch (err) {
-    sendResponse(
-      req,
-      res,
-      500,
-      `error occured while updating doc with id ${id}`,
-      "fail"
-    );
+    sendResponse(req, res, 500, err.message, "fail");
   }
 };
 //
-exports.addOne = async (req, res) => {
+exports.addProductCategory = async (req, res) => {
   const { user, title } = req.body;
   try {
     const availableCategory = await db.ProductCategory.findAll({

@@ -5,13 +5,13 @@ const router = express.Router();
 
 router
   .route("/sales/getAll")
-  .post(authController.isAuthenticated, salesController.getAll);
+  .post(authController.isAuthenticated, salesController.getSales);
 router
   .route("/sales")
-  .post(authController.isAuthenticated, salesController.addOne);
+  .post(authController.isAuthenticated, salesController.addSale);
 router
   .route("/sales/:id")
-  .delete(authController.isAuthenticated, salesController.deleteOne);
+  .delete(authController.isAuthenticated, salesController.deleteSale);
 router
   .route("/sales/reverse/:id")
   .delete(authController.isAuthenticated, salesController.reverseSale);

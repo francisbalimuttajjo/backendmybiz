@@ -3,9 +3,9 @@ const db = require("../models");
 
 const handler = require("./handler");
 
-exports.deleteOne = handler.deleteOne(db.CashItem);
+exports.deleteCashItem = handler.deleteOne(db.CashItem);
 // adding one item
-exports.addOneItem = async (req, res) => {
+exports.addCashItem = async (req, res) => {
   const {
     Amount,
     Category,
@@ -34,7 +34,7 @@ exports.addOneItem = async (req, res) => {
   }
 };
 
-exports.getAll = async (req, res) => {
+exports.getCashItems = async (req, res) => {
     
   try {
     const cashItems = await db.CashItem.findAll({
@@ -47,7 +47,7 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.updateOne = async (req, res) => {
+exports.updateCashItem = async (req, res) => {
   const id = req.params.id;
   try {
     await db.CashItem.update(req.body, { where: { id } });

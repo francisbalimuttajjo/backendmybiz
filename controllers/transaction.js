@@ -3,7 +3,7 @@ const db = require("../models");
 const { sequelize } = require("../models");
 
 //adding new transaction
-exports.addOne = async (req, res) => {
+exports.createTransaction = async (req, res) => {
   let t;
 
   t = await sequelize.transaction();
@@ -24,7 +24,7 @@ exports.addOne = async (req, res) => {
       { t }
     );
 
-    //adding transaction id to sales
+    //adding transaction id to sales 
     const new_items_with_transaction_id = stockItems.map(function (el) {
       return { ...el, transaction_id: transaction.id, client };
     });
@@ -54,7 +54,7 @@ exports.addOne = async (req, res) => {
 };
 
 //getting
-exports.getAll = async (req, res) => {
+exports.getTransactions = async (req, res) => {
   try {
     const transactions = await db.Transaction.findAll({
       where: { user: req.body.user },
@@ -72,10 +72,11 @@ exports.getAll = async (req, res) => {
 };
 
 //deleting transaction
-exports.deleteOne = async (req, res) => {
+exports.deleteTransaction = async (req, res) => {
   let transaction;
 
   transaction = await sequelize.transaction();
+  
   const id = req.params.id;
   try {
     let transaction_item = await db.Transaction.findOne({ where: { id } });

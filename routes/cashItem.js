@@ -5,15 +5,15 @@ const router = express.Router();
 
 router
   .route("/cashItem")
-  .post(authController.isAuthenticated, cashItemController.addOneItem);
+  .post(authController.isAuthenticated, cashItemController.addCashItem);
 
 router
   .route("/cashItem/getAll")
-  .post(authController.isAuthenticated, cashItemController.getAll);
+  .post(authController.isAuthenticated, cashItemController.getCashItems);
 
 router
   .route("/cashItem/:id")
-  .delete(authController.isAuthenticated, cashItemController.deleteOne)
-  .put(authController.isAuthenticated, cashItemController.updateOne);
+  .delete(authController.isAuthenticated, cashItemController.deleteCashItem)
+  .put(authController.isAuthenticated, cashItemController.updateCashItem);
 
 module.exports = router;

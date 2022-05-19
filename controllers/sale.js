@@ -3,7 +3,7 @@ const db = require("../models");
 const handler = require("./handler");
 
 
-exports.deleteOne = handler.deleteOne(db.Sale);
+exports.deleteSale = handler.deleteOne(db.Sale);
 
 //reversing / cancelling single sale
 exports.reverseSale = async (req, res) => {
@@ -27,7 +27,7 @@ exports.reverseSale = async (req, res) => {
   }
 };
 
-exports.addOne = async (req, res) => {
+exports.addSale = async (req, res) => {
   const { user, item_id, transaction_id, client, quantity, price } = req.body;
   try {
     const new_sale = await db.Sale.create({
@@ -44,7 +44,7 @@ exports.addOne = async (req, res) => {
   }
 };
 
-exports.getAll = async (req, res) => {
+exports.getSales = async (req, res) => {
   try {
     const sales = await db.Sale.findAll({
       where: { user: req.body.user },

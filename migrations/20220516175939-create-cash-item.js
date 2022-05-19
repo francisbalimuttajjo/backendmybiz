@@ -62,7 +62,7 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: { args: true, msg: "item must belong to a user" },
+          notEmpty: { args: true, msg: "payment mode is required" },
         },
       },
       createdAt: {

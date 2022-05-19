@@ -5,11 +5,11 @@ const router = express.Router();
 
 router
   .route("/stockItems")
-  .get(authController.isAuthenticated, stockItemController.getAll)
-  .post(authController.isAuthenticated, stockItemController.addOne);
+  .get(authController.isAuthenticated, stockItemController.getStockItems)
+  .post(authController.isAuthenticated, stockItemController.addStockItem);
 router
   .route("/stockItems/:id")
-  .put(authController.isAuthenticated, stockItemController.updateOne)
-  .delete(authController.isAuthenticated, stockItemController.deleteOne);
+  .put(authController.isAuthenticated, stockItemController.updateStockItem)
+  .delete(authController.isAuthenticated, stockItemController.deleteStockItem);
 
 module.exports = router;
